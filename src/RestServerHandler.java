@@ -76,5 +76,4 @@ class RestServerHandler implements HttpHandler {
 
         return sb.toString();
     }
-
 }
