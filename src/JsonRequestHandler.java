@@ -1,7 +1,11 @@
+import com.sun.net.httpserver.HttpExchange;
+
+import java.io.IOException;
+
 /**
  * Handles HTTP GET, PUT, POST, and DELETE requests from Server
  */
-class JsonParser {
+class JsonRequestHandler {
     private final String databaseName = "dbo.Employees";
 
     private final String sqlAutoJson = "FOR JSON AUTO;\n";
@@ -10,12 +14,37 @@ class JsonParser {
     private final String fieldEquals = "%s = %s";
     private final String and = " AND ";
 
+    private String requestMethod;
+    private String body;
 
+    JsonRequestHandler(HttpExchange httpExchange) throws IOException {
+        this(httpExchange.getRequestMethod(), HttpReader.toString(httpExchange.getRequestBody()));
+    }
+
+    private JsonRequestHandler(String requestMethod, String body) {
+        this.requestMethod = requestMethod;
+        this.body = body;
+    }
+
+    String getSql() {
+        switch (requestMethod) {
+            case "GET":
+                return handleGet(body);
+            case "PUT":
+                return handlePut(body);
+            case "POST":
+                return handlePost(body);
+            case "DELETE":
+                return handleDelete(body);
+            default:
+                return null;
+        }
+    }
 
     String handleGet(String body) {
 
         String sqlString = "SELECT * FROM dbo.Employees FOR JSON AUTO;\n";
-        if (body.isEmpty()){
+        if (body.isEmpty()) {
             return sqlString;
         } else {
             int queryStartPos = body.indexOf('?');
@@ -27,7 +56,7 @@ class JsonParser {
             for (int i = 0; i < keyValPairs.length; i++) {
                 String[] duple = keyValPairs[i].split("=");
                 sb.append(String.format(fieldEquals, duple[0], duple[1]));
-                if ( i + 1 < keyValPairs.length){
+                if (i + 1 < keyValPairs.length) {
                     sb.append(and);
                 }
             }
@@ -50,7 +79,7 @@ class JsonParser {
         return result;
     }
 
-    String handleDelete(String body){
+    String handleDelete(String body) {
         String result = null;
 
         return result;

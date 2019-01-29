@@ -32,6 +32,7 @@ public class Server {
         server.createContext("/test", new MyHandler());
         server.setExecutor(null);
         server.start();
+        System.out.println("Started server.");
     }
 
     /**
@@ -45,33 +46,20 @@ public class Server {
 
             String body = HttpReader.toString(httpExchange.getRequestBody());
 
-            String sqlString = null;
 
-            JsonParser parser = new JsonParser();
 
-            switch (httpExchange.getRequestMethod()) {
-                case "GET":
-                     sqlString = parser.handleGet(body);
-                    break;
-                case "PUT":
-                    sqlString = parser.handlePut(body);
-                    break;
-                case "POST":
-                    sqlString = parser.handlePost(body);
-                    break;
-                case "DELETE":
-                    sqlString = parser.handleDelete(body);
-                    break;
-            }
+            JsonRequestHandler jsonHandler = new JsonRequestHandler(httpExchange);
+
+            String sqlString = jsonHandler.getSql();
 
             if (sqlString == null){
                 System.out.println("Bad request received.");
             } else {
+                System.out.println("Sending this SQL output: \n" + sqlString);
                 response = handleSQL(sqlString);
             }
 
-            System.out.println("Received " + httpExchange.getRequestMethod() + " request: ");
-            System.out.println(body);
+
 
             httpExchange.sendResponseHeaders(200, response.getBytes().length);
             OutputStream os = httpExchange.getResponseBody();

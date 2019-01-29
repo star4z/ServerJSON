@@ -18,10 +18,10 @@ public class Client {
         httpCon.setDoOutput(true);
         httpCon.setRequestMethod("GET");
 
-        OutputStreamWriter out = new OutputStreamWriter(
-                httpCon.getOutputStream());
-        out.write("Resource content");
-        out.close();
+//        OutputStreamWriter out = new OutputStreamWriter(
+//                httpCon.getOutputStream());
+//        out.write("Resource content");
+//        out.close();
 
         HttpReader.read(httpCon);
     }
