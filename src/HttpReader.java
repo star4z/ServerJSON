@@ -4,16 +4,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
-public class HttpReader {
-    public static void read(HttpURLConnection httpCon) throws IOException {
-        read(httpCon.getInputStream());
+class HttpReader {
+    static void readInput(HttpURLConnection httpCon) throws IOException {
+        readInput(httpCon.getInputStream());
     }
 
-    public static void read(InputStream is) throws IOException {
+    private static void readInput(InputStream is) throws IOException {
         System.out.println(toString(is));
     }
 
-    public static String toString(InputStream is) throws IOException {
+    static String toString(InputStream is) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder result  = new StringBuilder();
         String line;

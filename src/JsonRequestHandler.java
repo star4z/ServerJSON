@@ -1,6 +1,9 @@
 import com.sun.net.httpserver.HttpExchange;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 /**
  * Handles HTTP GET, PUT, POST, and DELETE requests from Server
@@ -24,6 +27,8 @@ class JsonRequestHandler {
     private JsonRequestHandler(String requestMethod, String body) {
         this.requestMethod = requestMethod;
         this.body = body;
+
+        System.out.println("Received request " + requestMethod + ":\n" + body);
     }
 
     String getSql() {
@@ -41,7 +46,7 @@ class JsonRequestHandler {
         }
     }
 
-    String handleGet(String body) {
+    private String handleGet(String body) {
 
         String sqlString = "SELECT * FROM dbo.Employees FOR JSON AUTO;\n";
         if (body.isEmpty()) {
@@ -67,20 +72,30 @@ class JsonRequestHandler {
         }
     }
 
-    String handlePut(String body) {
-        String result = null;
-        //TODO: fill out method
-        return result;
-    }
-
-    String handlePost(String body) {
+    private String handlePut(String body) {
         String result = null;
         //TODO: fill out method
 
+        HashSet<String> keyset = new HashSet<>();
+
+        JSONArray jsonArray = new JSONArray(body);
+        for (Object o: jsonArray){
+            JSONObject object = (JSONObject) o;
+            keyset.addAll(object.keySet());
+        }
+
+
         return result;
     }
 
-    String handleDelete(String body) {
+    private String handlePost(String body) {
+        String result = null;
+        //TODO: fill out method
+
+        return result;
+    }
+
+    private String handleDelete(String body) {
         String result = null;
         //TODO: fill out method
 

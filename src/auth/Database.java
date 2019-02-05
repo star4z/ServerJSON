@@ -17,7 +17,11 @@ public class Database {
         String password = sc.nextLine();
         sc.close();
 
-        System.out.print("Connecting to database...");
-        return DriverManager.getConnection(dbConnectionURL, user, password);
+        return getDatabaseConnection(user, password);
+    }
+
+    private static Connection getDatabaseConnection(String username, String password) throws SQLException {
+        System.out.println("Connecting to database...");
+        return DriverManager.getConnection(dbConnectionURL, username, password);
     }
 }

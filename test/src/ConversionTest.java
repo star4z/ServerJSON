@@ -33,7 +33,7 @@ public class ConversionTest {
     private static String databaseName = "dbo.Employees";
 
     //PUT style response
-    public static String generateSQL(JSONObject object){
+    private static String generateSQL(JSONObject object){
         StringBuilder sb = new StringBuilder("INSERT INTO ");
         sb.append(databaseName).append(" (");
         for (String key :

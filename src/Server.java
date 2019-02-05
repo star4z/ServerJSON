@@ -18,8 +18,8 @@ public class Server {
     /**
      * starts the server process
      *
-     * @param args
-     * @throws IOException
+     * @param args unused input
+     * @throws IOException Bad reads and connections may happen.
      */
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(SOCKET_PORT), 0);
@@ -28,6 +28,4 @@ public class Server {
         server.start();
         System.out.println("Started server.");
     }
-
-
 }
