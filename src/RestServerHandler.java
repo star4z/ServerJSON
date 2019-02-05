@@ -13,8 +13,7 @@ import java.sql.*;
 class RestServerHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "This is the default response"; //Invalid request method response
-
+        String response = "Query was not valid."; //Invalid request method response
 
         JsonRequestHandler jsonHandler = new JsonRequestHandler(httpExchange);
 
@@ -44,7 +43,11 @@ class RestServerHandler implements HttpHandler {
 
             return sqlToJson(resultSet);
 
-        } catch (SQLException | FileNotFoundException e) {
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Could not connect to server.");
+            return "Could not connect to server.";
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
         }
