@@ -8,7 +8,7 @@ public class Server {
 
     //Thought: use GSON (Google's JSON parser) since using Android?
 
-    private static final String dbConnectionURL = "jdbc:sqlserver://150.156.202.112:1433;databaseName=TutorialDB";
+    private static final String dbConnectionURL = "jdbc:sqlserver://150.156.202.112:1433;databaseName=Inventory";
     private static String hostname = "localhost"; //"150.156.202.112";
     private static int port = 2000;
     private static ServerSocket server;

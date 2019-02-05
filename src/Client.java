@@ -22,18 +22,18 @@ public class Client {
         httpCon.setRequestMethod("GET");
         httpCon.setDoOutput(true);
 
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("name", "Ben");
+//        Map<String, String> parameters = new HashMap<>();
+//        parameters.put("name", "Ben");
+//
+//        DataOutputStream out = new DataOutputStream(httpCon.getOutputStream());
+//        out.writeBytes(getParamsString(parameters));
+//        out.flush();
+//        out.close();
+//
+//        httpCon.setConnectTimeout(5000);
+//        httpCon.setReadTimeout(5000);
 
-        DataOutputStream out = new DataOutputStream(httpCon.getOutputStream());
-        out.writeBytes(getParamsString(parameters));
-        out.flush();
-        out.close();
-
-        httpCon.setConnectTimeout(5000);
-        httpCon.setReadTimeout(5000);
-
-        int status = httpCon.getResponseCode();
+//        int status = httpCon.getResponseCode();
         HttpReader.readInput(httpCon);
 
         System.out.println(httpCon.getRequestMethod());
@@ -61,7 +61,4 @@ public class Client {
                 ? resultString.substring(0, resultString.length() - 1)
                 : resultString;
     }
-
 }
-
-

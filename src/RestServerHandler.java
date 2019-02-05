@@ -26,6 +26,7 @@ class RestServerHandler implements HttpHandler {
             response = handleSQL(sqlString);
         }
 
+        assert response != null;
 
         httpExchange.sendResponseHeaders(200, response.getBytes().length);
         OutputStream os = httpExchange.getResponseBody();
@@ -34,7 +35,7 @@ class RestServerHandler implements HttpHandler {
     }
 
 
-    String handleSQL(String SQLstring) {
+    private String handleSQL(String SQLstring) {
         try {
             Connection connection = Database.getDatabaseConnection();
             System.out.println("Connected.\n");
@@ -47,13 +48,13 @@ class RestServerHandler implements HttpHandler {
             e.printStackTrace();
             System.out.println("Could not connect to server.");
             return "Could not connect to server.";
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    ResultSet sendSQL(Connection connection, String sqlitis) throws SQLException {
+    private ResultSet sendSQL(Connection connection, String sqlitis) throws SQLException {
         Statement statement = connection.createStatement();
         statement.execute(sqlitis);
         return statement.getResultSet();
@@ -65,9 +66,9 @@ class RestServerHandler implements HttpHandler {
      *
      * @param rs Response from a sql request
      * @return String
-     * @throws SQLException
+     * @throws SQLException May result from invalid SQL result set
      */
-    String sqlToJson(ResultSet rs) throws SQLException {
+    private String sqlToJson(ResultSet rs) throws SQLException {
         ResultSetMetaData resultSetMetaData = rs.getMetaData();
         StringBuilder sb = new StringBuilder();
 

@@ -9,7 +9,7 @@ import java.util.HashSet;
  * Handles HTTP GET, PUT, POST, and DELETE requests from Server
  */
 class JsonRequestHandler {
-    private final String databaseName = "dbo.Employees";
+    private final String databaseName = "dbo.Inventory";
 
     private final String sqlAutoJson = "FOR JSON AUTO;\n";
 
@@ -47,8 +47,8 @@ class JsonRequestHandler {
     }
 
     private String handleGet(String body) {
+        String sqlString = "SELECT * FROM " + databaseName + " FOR JSON AUTO;\n";
 
-        String sqlString = "SELECT * FROM dbo.Employees FOR JSON AUTO;\n";
         if (body.isEmpty()) {
             return sqlString;
         } else {
