@@ -16,7 +16,7 @@ public class DatabaseConnectionTest {
     public static void main(String[] args) {
 
         // Create a variable for the connection string.
-        String dbConnectionURL = "jdbc:sqlserver://150.156.202.112:1433;databaseName=TutorialDB";
+        String dbConnectionURL = "jdbc:sqlserver://150.156.202.112:1433;databaseName=DogNETInventory";//NOT used here!
         int port = 2000;
 //        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 

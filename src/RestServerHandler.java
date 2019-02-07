@@ -50,6 +50,7 @@ class RestServerHandler implements HttpHandler {
             return "Could not connect to server.";
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Encountered an IO error.");
             return null;
         }
     }

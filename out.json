@@ -1,2 +1,1 @@
-[{"EmployeesId":1,"Name":"Jared","Location":"Australia"},{"EmployeesId":2,"Name":"Nikita","Location":"India"},{"EmployeesId":3,"Name":"Tom","Location":"Germany"},{"EmployeesId":4,"Name":"Jake","Location":"United States"},{"EmployeesId":5,"Name":"Hannah","Location":"Greece"},{"EmployeesId":6,"Name":"Grace","Location":"Korea"},{"EmployeesId":7,"Name":"Daniel","Location":"United Kingdom"},{"EmployeesId":8,"Name":"Chadwick","Location":"United States"}]
-
+[{"id":0,"barcode":0,"qr":0,"name":"default item","type":"default","serial":0,"room":"Kunsela C115","brand":"default","acquired":"2019-02-05"}]
