@@ -1,7 +1,6 @@
 package auth;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,9 +25,9 @@ public class Database {
         return DriverManager.getConnection(dbConnectionURL, username, password);
     }
 
-    public static HashMap<String, String> getCredentials() throws FileNotFoundException {
+    private static HashMap<String, String> getCredentials() throws FileNotFoundException {
         System.out.println("Getting credentials...");
-        File sourceFile = new File("creds.dat");
+        File sourceFile = new File("creds0.dat");
         Scanner sc = new Scanner(sourceFile);
 
         String encryptedData  = sc.nextLine();

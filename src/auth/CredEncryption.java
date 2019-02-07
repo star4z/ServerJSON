@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class CredEncryption {
     public static void main(String[] args) throws IOException {
-        FileOutputStream writer = new FileOutputStream(new File("creds.dat"));
+        FileOutputStream writer = new FileOutputStream(new File("creds0.dat"));
         Scanner sc = new Scanner(System.in);
         System.out.println("Entries cannot contain '=' or '&");
         System.out.println("user: ");
