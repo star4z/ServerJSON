@@ -23,6 +23,7 @@ public class JsonParseTesting {
         j.put("8", o);
 
         boolean[][] parsingTable = new boolean[8][6];
+        char[] valueOrder = new char[]{ 'i', 'd', 'd', 's', 'b', 'c', 'l','o'};
 
         int a = 0;
         for (String key: j.keySet()){
@@ -65,20 +66,13 @@ public class JsonParseTesting {
                 j.get(key);
                 parsingTable[a][5] = true;
             } catch ( JSONException e){
-                parsingTable[a][6] = false;
+                parsingTable[a][5] = false;
             }
             a++;
         }
 
-        System.out.println("  b i l d s o");
-        char[] valueOrder = new char[]{ 'i', 'd', 'd', 's', 'b', 'c', 'l','o'};
-        for (int x = 0; x < 8; x++){
-            System.out.print(valueOrder[x]);
-            for (int y = 0; y < 6; y++){
-                System.out.print(" " + ((parsingTable[x][y])? '✔': ' '));
-            }
-            System.out.println();
-        }
+        printParsingTable(parsingTable, valueOrder);
+
 
         a = 0;
         for (String key: j.keySet()){
@@ -123,19 +117,12 @@ public class JsonParseTesting {
                 ((Object) p).toString();
                 parsingTable[a][5] = true;
             } catch ( ClassCastException e){
-                parsingTable[a][6] = false;
+                parsingTable[a][5] = false;
             }
             a++;
         }
 
-        System.out.println("  b i l d s o");
-        for (int x = 0; x < 8; x++){
-            System.out.print(valueOrder[x]);
-            for (int y = 0; y < 6; y++){
-                System.out.print(" " + ((parsingTable[x][y])? '✔': ' '));
-            }
-            System.out.println();
-        }
+        printParsingTable(parsingTable, valueOrder);
 
         a = 0;
         for (String key: j.keySet()){
@@ -180,11 +167,15 @@ public class JsonParseTesting {
                 Object o1 = ((Object) p);
                 parsingTable[a][5] = true;
             } catch ( ClassCastException e){
-                parsingTable[a][6] = false;
+                parsingTable[a][5] = false;
             }
             a++;
         }
 
+        printParsingTable(parsingTable, valueOrder);
+    }
+
+    private static void printParsingTable(boolean[][] parsingTable, char[] valueOrder) {
         System.out.println("  b i l d s o");
         for (int x = 0; x < 8; x++){
             System.out.print(valueOrder[x]);
