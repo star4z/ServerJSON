@@ -1,15 +1,18 @@
 
+import org.apache.http.HttpConnection;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Console-based client for server
+ * Console-based client for Server
  */
 public class Client {
     //TODO: protect ILLEGAL_CHARACTERS from being inputted by user
@@ -19,8 +22,12 @@ public class Client {
     public static void main(String[] args) throws IOException {
         URL url = new URL("http://localhost:8000/test");
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-        httpCon.setRequestMethod("GET");
-        httpCon.setDoOutput(true);
+
+        testGet(httpCon);
+        HttpReader.readInput(httpCon);
+
+
+//        httpCon.setDoOutput(true);
 
 //        Map<String, String> parameters = new HashMap<>();
 //        parameters.put("name", "Ben");
@@ -33,16 +40,25 @@ public class Client {
 //        httpCon.setConnectTimeout(5000);
 //        httpCon.setReadTimeout(5000);
 
-//        int status = httpCon.getResponseCode();
         HttpReader.readInput(httpCon);
 
-        System.out.println(httpCon.getRequestMethod());
 
 //        OutputStreamWriter out = new OutputStreamWriter(
 //                httpCon.getOutputStream());
 //        out.write("output stream");
 //        out.close();
 
+    }
+
+    private static int testGet(HttpURLConnection httpCon) throws IOException {
+        httpCon.setRequestMethod("GET");
+
+        return httpCon.getResponseCode();
+    }
+
+    private static int testPut(HttpURLConnection httpURLConnection) throws IOException {
+        //TODO
+        return httpURLConnection.getResponseCode();
     }
 
     private static String getParamsString(Map<String, String> params)
