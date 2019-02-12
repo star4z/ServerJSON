@@ -13,7 +13,7 @@ import java.util.HashSet;
 class JsonRequestHandler {
     private final String databaseName = "dbo.Inventory";
 
-    private final String sqlAutoJson = "FOR JSON AUTO;\n";
+    private final String sqlAutoJson = "FOR JSON AUTO; ";
 
     private final String fieldEquals = "%s = %s";
     private final String and = " AND ";
@@ -29,8 +29,7 @@ class JsonRequestHandler {
         this.requestMethod = requestMethod;
         this.body = body;
 
-
-        System.out.println("Received request " + requestMethod + ":\n" + body);
+        System.out.println("Received request " + requestMethod + (body.isEmpty()? "." :":\n" + body));
     }
 
     String getSql() {
@@ -49,7 +48,7 @@ class JsonRequestHandler {
     }
 
     private String handleGet(String body) {
-        String sqlString = "SELECT * FROM " + databaseName + " FOR JSON AUTO;\n";
+        String sqlString = "SELECT * FROM " + databaseName + " FOR JSON AUTO; ";
 
         if (body.isEmpty()) {
             return sqlString;

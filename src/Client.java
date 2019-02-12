@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,39 +19,27 @@ public class Client {
         URL url = new URL("http://localhost:8000/test");
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 
-        testGet(httpCon);
+        testRequest(url, "GET");
+
+    }
+
+    private static int testRequest(URL url, String requestMethod) throws IOException {
+        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+
+        int statusCode = -1;
+        switch (requestMethod) {
+            case "GET":
+                statusCode = testGet(httpCon);
+                break;
+            case "PUT":
+                statusCode = testPut(httpCon);
+                break;
+            default:
+                return statusCode;
+        }
+
         HttpReader.readInput(httpCon);
-
-        httpCon = (HttpURLConnection) url.openConnection();
-        testPut(httpCon);
-        HttpReader.readInput(httpCon);
-
-        httpCon = (HttpURLConnection) url.openConnection();
-        testGet(httpCon);
-        HttpReader.readInput(httpCon);
-
-
-//        httpCon.setDoOutput(true);
-
-//        Map<String, String> parameters = new HashMap<>();
-//        parameters.put("name", "Ben");
-//
-//        DataOutputStream out = new DataOutputStream(httpCon.getOutputStream());
-//        out.writeBytes(getParamsString(parameters));
-//        out.flush();
-//        out.close();
-//
-//        httpCon.setConnectTimeout(5000);
-//        httpCon.setReadTimeout(5000);
-
-//        HttpReader.readInput(httpCon);
-
-
-//        OutputStreamWriter out = new OutputStreamWriter(
-//                httpCon.getOutputStream());
-//        out.write("output stream");
-//        out.close();
-
+        return statusCode;
     }
 
     private static int testGet(HttpURLConnection httpCon) throws IOException {
@@ -62,7 +49,6 @@ public class Client {
     }
 
     private static int testPut(HttpURLConnection httpURLConnection) throws IOException {
-        //TODO
         httpURLConnection.setRequestMethod("PUT");
 
         httpURLConnection.setDoOutput(true);
