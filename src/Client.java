@@ -1,9 +1,11 @@
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,6 +23,14 @@ public class Client {
         testGet(httpCon);
         HttpReader.readInput(httpCon);
 
+        httpCon = (HttpURLConnection) url.openConnection();
+        testPut(httpCon);
+        HttpReader.readInput(httpCon);
+
+        httpCon = (HttpURLConnection) url.openConnection();
+        testGet(httpCon);
+        HttpReader.readInput(httpCon);
+
 
 //        httpCon.setDoOutput(true);
 
@@ -35,7 +45,7 @@ public class Client {
 //        httpCon.setConnectTimeout(5000);
 //        httpCon.setReadTimeout(5000);
 
-        HttpReader.readInput(httpCon);
+//        HttpReader.readInput(httpCon);
 
 
 //        OutputStreamWriter out = new OutputStreamWriter(
@@ -53,6 +63,24 @@ public class Client {
 
     private static int testPut(HttpURLConnection httpURLConnection) throws IOException {
         //TODO
+        httpURLConnection.setRequestMethod("PUT");
+
+        httpURLConnection.setDoOutput(true);
+
+//        Map<String, String> parameters = new HashMap<>();
+//        parameters.put("name", "Ben");
+
+        DataOutputStream out = new DataOutputStream(httpURLConnection.getOutputStream());
+//        out.writeBytes(getParamsString(parameters));
+        out.writeBytes("{\"acquired\":\"\",\"barcode\":-1,\"brand\":\"\",\"id\":-1,\"name\":\"xsrfcghbnk\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
+        out.flush();
+        out.close();
+
+
+        httpURLConnection.setConnectTimeout(5000);
+        httpURLConnection.setReadTimeout(5000);
+
+
         return httpURLConnection.getResponseCode();
     }
 

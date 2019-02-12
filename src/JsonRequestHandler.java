@@ -1,5 +1,6 @@
 import com.sun.net.httpserver.HttpExchange;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -75,58 +76,90 @@ class JsonRequestHandler {
     }
 
     private String handlePut(String body) {
-        String result = null;
-        //TODO: fill out method
-
         String ifNotExists = "IF NOT EXISTS (SELECT * FROM " + databaseName + " WHERE ";
-        String insert = "INSERT INTO ";
+        String insert = "INSERT INTO " + databaseName ;
         String values = " VALUES ";
 
-        JSONArray jsonArray = new JSONArray(body);
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(body);
+        } catch (JSONException e){
+            //If only one object is sent, converts it to an array
+            jsonArray = new JSONArray('[' + body + ']');
+        }
 
 
         HashSet<String> keyset = new HashSet<>(((JSONObject) jsonArray.get(0)).keySet());
-
         ArrayList<String> outputStrings = new ArrayList<>();
         ArrayList<Integer> ids = new ArrayList<>();
+
         for (Object object: jsonArray){
             JSONObject jsonObject = (JSONObject) object;
 
-            StringBuilder s = new StringBuilder("(");
+            ids.add(jsonObject.getInt("id"));
+            outputStrings.add(listValues(jsonObject));
+        }
 
-            for (String key:keyset){
-                if (key.equals("id")) {
-                    ids.add(jsonObject.getInt(key));
-                }
+        StringBuilder resultBuilder = new StringBuilder(ifNotExists);
 
-                Object p = jsonObject.get(key);
-                try {
-                    int i = ((Integer) p);
-                    s.append(i);
+        for (int id: ids){
+            resultBuilder.append("id = ");
+            resultBuilder.append(id);
+            resultBuilder.append(" OR ");
+        }
 
-                } catch (ClassCastException e1) {
-                    try {
-                        double d = ((double) p);
-                        s.append(d);
-                    } catch (ClassCastException e2){
-                        try {
-                            String s1 = (String) p;
-                            s.append("'");
-                            s.append(s1);
-                            s.append("'");
-                        } catch (ClassCastException e3) {
+        resultBuilder.replace(resultBuilder.length() - 4, resultBuilder.length(), "");
+        resultBuilder.append(")");
 
-                        }
-                    }
-                }
-                s.append(", ");
+        resultBuilder.append(insert);
+        resultBuilder.append(" ");
+        resultBuilder.append(listKeys(keyset));
+
+        resultBuilder.append(values);
+
+        for (String s: outputStrings){
+            resultBuilder.append(s);
+        }
+
+        resultBuilder.replace(resultBuilder.length() - 2, resultBuilder.length(), "");
+
+        return resultBuilder.toString();
+    }
+
+    private String listKeys(HashSet<String> keySet){
+        StringBuilder s = new StringBuilder("(");
+        for (String key: keySet){
+            s.append(key);
+            s.append(", ");
+        }
+        s.replace(s.length() - 2, s.length(), "");
+        s.append(")");
+        return s.toString();
+    }
+
+    private String listValues(JSONObject jsonObject){
+        StringBuilder stringBuilder = new StringBuilder("(");
+
+        for (String key: jsonObject.keySet()){
+            Object p = jsonObject.get(key);
+
+            if (p instanceof String){
+                stringBuilder.append("'");
+                stringBuilder.append(p);
+                stringBuilder.append("', ");
+            } else {
+                stringBuilder.append(p);
+                stringBuilder.append(", ");
             }
         }
 
-        return result;
+        stringBuilder.replace(stringBuilder.length() -2, stringBuilder.length(), "");
+        stringBuilder.append("), ");
+        return stringBuilder.toString();
     }
 
     private String handlePost(String body) {
+        //TODO: should not check if it exists
         return handlePut(body);
     }
 

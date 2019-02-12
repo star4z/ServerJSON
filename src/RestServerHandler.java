@@ -18,6 +18,7 @@ class RestServerHandler implements HttpHandler {
 
         String sqlString = jsonHandler.getSql();
 
+
         if (sqlString == null) {
             System.out.println("Bad request received.");
         } else {
