@@ -3,6 +3,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -13,7 +14,6 @@ class JsonRequestHandler {
 
     private final String sqlAutoJson = "FOR JSON AUTO;\n";
 
-    private final String fillInGet = "SELECT * FROM " + databaseName + " WHERE %s FOR JSON AUTO;";
     private final String fieldEquals = "%s = %s";
     private final String and = " AND ";
 
@@ -27,6 +27,7 @@ class JsonRequestHandler {
     private JsonRequestHandler(String requestMethod, String body) {
         this.requestMethod = requestMethod;
         this.body = body;
+
 
         System.out.println("Received request " + requestMethod + ":\n" + body);
     }
@@ -68,6 +69,7 @@ class JsonRequestHandler {
 
             sb.append(sqlAutoJson);
 
+            String fillInGet = "SELECT * FROM " + databaseName + " WHERE %s FOR JSON AUTO;";
             return String.format(fillInGet, sb.toString());
         }
     }
@@ -76,23 +78,56 @@ class JsonRequestHandler {
         String result = null;
         //TODO: fill out method
 
-        HashSet<String> keyset = new HashSet<>();
+        String ifNotExists = "IF NOT EXISTS (SELECT * FROM " + databaseName + " WHERE ";
+        String insert = "INSERT INTO ";
+        String values = " VALUES ";
 
         JSONArray jsonArray = new JSONArray(body);
-        for (Object o: jsonArray){
-            JSONObject object = (JSONObject) o;
-            keyset.addAll(object.keySet());
-        }
 
+
+        HashSet<String> keyset = new HashSet<>(((JSONObject) jsonArray.get(0)).keySet());
+
+        ArrayList<String> outputStrings = new ArrayList<>();
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (Object object: jsonArray){
+            JSONObject jsonObject = (JSONObject) object;
+
+            StringBuilder s = new StringBuilder("(");
+
+            for (String key:keyset){
+                if (key.equals("id")) {
+                    ids.add(jsonObject.getInt(key));
+                }
+
+                Object p = jsonObject.get(key);
+                try {
+                    int i = ((Integer) p);
+                    s.append(i);
+
+                } catch (ClassCastException e1) {
+                    try {
+                        double d = ((double) p);
+                        s.append(d);
+                    } catch (ClassCastException e2){
+                        try {
+                            String s1 = (String) p;
+                            s.append("'");
+                            s.append(s1);
+                            s.append("'");
+                        } catch (ClassCastException e3) {
+
+                        }
+                    }
+                }
+                s.append(", ");
+            }
+        }
 
         return result;
     }
 
     private String handlePost(String body) {
-        String result = null;
-        //TODO: fill out method
-
-        return result;
+        return handlePut(body);
     }
 
     private String handleDelete(String body) {
