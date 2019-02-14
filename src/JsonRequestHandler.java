@@ -117,7 +117,6 @@ class JsonRequestHandler {
         }
 
         resultBuilder.replace(resultBuilder.length() - 4, resultBuilder.length(), "");
-        resultBuilder.append(")");
 
         return resultBuilder.toString();
     }
@@ -189,7 +188,7 @@ class JsonRequestHandler {
 
         HashSet<String> keySet = new HashSet<>(((JSONObject) jsonArray.get(0)).keySet());
 
-        return ifNotExists + getIdComparisons(jsonArray) +
+        return ifNotExists + getIdComparisons(jsonArray) + ")" +
                 insert +
                 " " +
                 listKeys(keySet) +
@@ -198,9 +197,10 @@ class JsonRequestHandler {
     }
 
     private String handleDelete(String body) {
-        String result = null;
-        //TODO: fill out method
+        JSONArray jsonArray = toJsonArray(body);
 
-        return result;
+        return "DELETE FROM " + databaseName +
+                " WHERE " +
+                getIdComparisons(jsonArray);
     }
 }

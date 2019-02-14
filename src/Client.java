@@ -18,7 +18,7 @@ public class Client {
         URL url = new URL("http://localhost:8000/test");
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 
-        testRequest(url, "PUT");
+        testRequest(url, "DELETE");
         testRequest(url, "GET");
     }
 
@@ -36,7 +36,7 @@ public class Client {
                 testPost(httpCon);
                 break;
             case "DELETE":
-//              testDelete(httpCon);
+                testDelete(httpCon);
                 break;
             default:
                 return;
@@ -51,36 +51,35 @@ public class Client {
 
     private static void testPut(HttpURLConnection httpURLConnection) throws IOException {
         httpURLConnection.setRequestMethod("PUT");
-
-        httpURLConnection.setDoOutput(true);
-
-        DataOutputStream out = new DataOutputStream(httpURLConnection.getOutputStream());
-        out.writeBytes("{\"acquired\":\"\",\"barcode\":-1,\"brand\":\"\",\"id\":-1,\"name\":\"Put test\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
-        out.flush();
-        out.close();
-
-
-        httpURLConnection.setConnectTimeout(5000);
-        httpURLConnection.setReadTimeout(5000);
+        createTestJson(httpURLConnection, "\",\"barcode\":-1,\"brand\":\"\",\"id\":-1,\"name\":\"Put test\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
     }
 
     private static void testPost(HttpURLConnection httpURLConnection) throws IOException {
         httpURLConnection.setRequestMethod("POST");
 
-        httpURLConnection.setDoOutput(true);
+        createTestJson(httpURLConnection, "\",\"barcode\":-1,\"brand\":\"\",\"id\":-1,\"name\":\"Push test\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
+    }
 
+    private static void testDelete(HttpURLConnection httpURLConnection) throws IOException {
+        httpURLConnection.setRequestMethod("DELETE");
+        createTestJson(httpURLConnection, "\",\"barcode\":-1,\"brand\":\"\",\"id\":-1,\"name\":\"Delete test\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
+    }
+
+    private static String formatDate(long timeInMillis) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return simpleDateFormat.format(timeInMillis);
+    }
+
+
+    private static void createTestJson(HttpURLConnection httpURLConnection, String s) throws IOException {
+        httpURLConnection.setDoOutput(true);
         DataOutputStream out = new DataOutputStream(httpURLConnection.getOutputStream());
-        out.writeBytes("{\"acquired\":\"" + formatDate(System.currentTimeMillis()) +"\",\"barcode\":-1,\"brand\":\"\",\"id\":-1,\"name\":\"Push test\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
+        out.writeBytes("{\"acquired\":\"" + formatDate(System.currentTimeMillis()) + s);
         out.flush();
         out.close();
 
         httpURLConnection.setConnectTimeout(5000);
         httpURLConnection.setReadTimeout(5000);
-    }
-
-    private static String formatDate(long timeInMillis){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return simpleDateFormat.format(timeInMillis);
     }
 
 
