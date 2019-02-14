@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/sqljdbc_6.0/enu/jre8/sqljdbc42.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/json-20180813.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,62 +19,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/json-20180813.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.5.6-bin.zip!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.5.6-bin.zip!/" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES />
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.5.6-bin.zip!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.5.6/lib/commons-codec-1.10.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.5.6/lib/commons-logging-1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.5.6/lib/httpcore-4.4.10.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.5.6/lib/httpclient-4.5.6.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/sqljdbc_7.2/enu/mssql-jdbc-7.2.1.jre8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

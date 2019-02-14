@@ -20,7 +20,7 @@ class RestServerHandler implements HttpHandler {
         if (sqlString == null) {
             System.out.println("Bad request received.");
         } else {
-            System.out.println("Sending this SQL output: \n" + sqlString);
+            System.out.println("Generated the following SQL: \n" + sqlString);
             SqlHandler sqlHandler = new SqlHandler();
             response = sqlHandler.handleSQL(sqlString);
         }

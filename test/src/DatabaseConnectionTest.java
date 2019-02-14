@@ -1,5 +1,4 @@
 import auth.Database;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -36,7 +35,7 @@ public class DatabaseConnectionTest {
 
                 String sql = sc.nextLine();
                 System.out.println(sql);
-                try {
+//                try {
                     if (stmt.execute(sql)) {
                         ResultSet rs = stmt.executeQuery(sql);
                         ResultSetMetaData rsmd = rs.getMetaData();
@@ -54,9 +53,9 @@ public class DatabaseConnectionTest {
                     } else {
                         System.out.println("Command produced no output.");
                     }
-                } catch (SQLServerException e){
-                    e.printStackTrace();
-                }
+//                } catch (SQLServerException e){
+//                    e.printStackTrace();
+//                }
                 System.out.println("\nFinished\n");
             }
 
