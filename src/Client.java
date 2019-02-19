@@ -15,7 +15,7 @@ public class Client {
             '<', '>', '(', ')', '*', '^', '!', '~', '-', '|', ';', '%'}; //characters reserved by JSON and SQL standards
 
     public static void main(String[] args) throws IOException {
-        URL url = new URL("http://localhost:8000/test");
+        URL url = new URL("http://localhost:8000/inventory");
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 
         testRequest(url, "DELETE");

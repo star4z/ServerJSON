@@ -23,7 +23,7 @@ public class Server {
      */
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(SOCKET_PORT), 0);
-        server.createContext("/test", new RestServerHandler());//TODO: change to /inventory
+        server.createContext("/inventory", new RestServerHandler());
         server.setExecutor(null);
         server.start();
         System.out.println("Started server.");

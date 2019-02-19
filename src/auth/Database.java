@@ -25,10 +25,31 @@ public class Database {
         return DriverManager.getConnection(dbConnectionURL, username, password);
     }
 
-    private static HashMap<String, String> getCredentials() throws FileNotFoundException {
+    private static HashMap<String, String> getCredentials(){
         System.out.println("Getting credentials...");
+
+        HashMap<String, String> creds = new HashMap<>();
+
         File sourceFile = new File("creds0.dat");
-        Scanner sc = new Scanner(sourceFile);
+        Scanner sc = null;
+        try {
+            sc = new Scanner(sourceFile);
+        } catch (FileNotFoundException e) {
+            try {
+                if (sourceFile.createNewFile()){
+                    System.out.println("Login: ");
+                    CredEncryption.writeCredsFile(sourceFile);
+                    sc = new Scanner(sourceFile);
+                } else {
+                    System.out.println("Could not create new file.");
+                    System.exit(0);
+                }
+            } catch (IOException e1) {
+                System.out.println("File creation error.");
+                e1.printStackTrace();
+                System.exit(0);
+            }
+        }
 
         String encryptedData  = sc.nextLine();
 
@@ -43,7 +64,6 @@ public class Database {
         String user = data.substring(nameSt + 1, nameEnd);
         String password = data.substring(pwordSt + 1);
 
-        HashMap<String, String> creds = new HashMap<>();
         creds.put("user", user);
         creds.put("password", password);
         return creds;

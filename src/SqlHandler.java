@@ -17,8 +17,9 @@ class SqlHandler {
 
         } catch (SQLException e){
             e.printStackTrace();
-            System.out.println("Could not connect to server.");
-            return "Could not connect to server.";
+            System.out.println("Could not connect to server. Wrong password? " +
+                    "Delete creds0.dat and restart to reenter database password.");
+            return "Could not connect to server. Server might not have been configured correctly.";
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Encountered an IO error.");
