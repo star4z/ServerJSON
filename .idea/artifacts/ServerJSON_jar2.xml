@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact name="ServerJSON:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/ServerJSON_jar2</output-path>
+    <root id="root">
+      <element id="archive" name="ServerJSON.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/out/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="ServerJSON" />
+        <element id="module-output" name="test" />
+      </element>
+      <element id="file-copy" path="$USER_HOME$/Downloads/json-20180813.jar" />
+      <element id="file-copy" path="$USER_HOME$/Downloads/sqljdbc_7.2/enu/mssql-jdbc-7.2.1.jre8.jar" />
+    </root>
+  </artifact>
+</component>

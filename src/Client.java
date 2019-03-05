@@ -5,9 +5,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
- * Console-based client for Server
+ * Console-based client for Server. Intended for testing purposes.
  */
 public class Client {
     //TODO: protect ILLEGAL_CHARACTERS from being inputted by user
@@ -15,10 +16,24 @@ public class Client {
             '<', '>', '(', ')', '*', '^', '!', '~', '-', '|', ';', '%'}; //characters reserved by JSON and SQL standards
 
     public static void main(String[] args) throws IOException {
-        URL url = new URL("http://localhost:8000/inventory");
-        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+        System.out.println("Testing localhost(0) or 150.156.202.112(1)?");
+        Scanner sc = new Scanner(System.in);
+        URL url;
+        switch (sc.nextInt()) {
+            case 0:
+                url = new URL("http://localhost:8000/inventory");
+                break;
+            case 1:
+                url = new URL("http://150.156.202.112:8000/inventory");
+                break;
+            default:
+                url = new URL("http://150.156.202.112:8000/inventory");
+                break;
+        }
 
-        testRequest(url, "DELETE");
+//        testRequest(url, "POST");
+        testRequest(url, "PUT");
+//        testRequest(url, "DELETE");
         testRequest(url, "GET");
     }
 
@@ -62,7 +77,7 @@ public class Client {
 
     private static void testDelete(HttpURLConnection httpURLConnection) throws IOException {
         httpURLConnection.setRequestMethod("DELETE");
-        createTestJson(httpURLConnection, "\",\"barcode\":-1,\"brand\":\"\",\"id\":-1,\"name\":\"Delete test\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
+        createTestJson(httpURLConnection, "\",\"barcode\":-1,\"brand\":\"\",\"id\":0,\"name\":\"Delete test\",\"qr\":-1,\"room\":\"\",\"serial\":-1,\"type\":\"\"}");
     }
 
     private static String formatDate(long timeInMillis) {

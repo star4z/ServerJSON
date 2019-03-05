@@ -86,10 +86,32 @@ class JsonRequestHandler {
         StringBuilder resultBuilder = new StringBuilder();
         for (Object o : jsonArray) {
             JSONObject jsonObject = (JSONObject) o;
-            resultBuilder.append("UPDATE " + databaseName + " SET ").append(getAllComparisons(jsonObject, keySet)).
+
+            resultBuilder.append(handlePost(body)).append("ELSE UPDATE " + databaseName + " SET ").append(getAllComparisons(jsonObject, keySet)).
                     append(" WHERE id = ").append(jsonObject.getInt("id")).append("; ");
         }
         return resultBuilder.toString();
+    }
+
+    private String handlePost(String body) {
+        JSONArray jsonArray = toJsonArray(body);
+
+        HashSet<String> keySet = new HashSet<>(((JSONObject) jsonArray.get(0)).keySet());
+
+        return ifNotExists + getIdComparisons(jsonArray) + ") " +
+                insert +
+                " " +
+                listKeys(keySet) +
+                values +
+                listNewValueSets(jsonArray);
+    }
+
+    private String handleDelete(String body) {
+        JSONArray jsonArray = toJsonArray(body);
+
+        return "DELETE FROM " + databaseName +
+                " WHERE " +
+                getIdComparisons(jsonArray);
     }
 
     private JSONArray toJsonArray(String body) {
@@ -163,10 +185,17 @@ class JsonRequestHandler {
         StringBuilder stringBuilder = new StringBuilder("(");
 
         for (String key : jsonObject.keySet()) {
-            Object p = jsonObject.get(key);
+            if (key.equals("id")){
+                int id = jsonObject.getInt(key);
+                if (id == -1){
+                    id = (int) System.currentTimeMillis();
+                }
+                stringBuilder.append(id).append(", ");
+            } else {
+                Object p = jsonObject.get(key);
 
-            stringBuilder.append(typeCheckedValue(p));
-            stringBuilder.append(", ");
+                stringBuilder.append(typeCheckedValue(p)).append(", ");
+            }
         }
 
         stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(), "");
@@ -182,24 +211,5 @@ class JsonRequestHandler {
         }
     }
 
-    private String handlePost(String body) {
-        JSONArray jsonArray = toJsonArray(body);
 
-        HashSet<String> keySet = new HashSet<>(((JSONObject) jsonArray.get(0)).keySet());
-
-        return ifNotExists + getIdComparisons(jsonArray) + ")" +
-                insert +
-                " " +
-                listKeys(keySet) +
-                values +
-                listNewValueSets(jsonArray);
-    }
-
-    private String handleDelete(String body) {
-        JSONArray jsonArray = toJsonArray(body);
-
-        return "DELETE FROM " + databaseName +
-                " WHERE " +
-                getIdComparisons(jsonArray);
-    }
 }
